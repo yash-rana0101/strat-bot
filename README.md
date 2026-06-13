@@ -113,3 +113,18 @@ Run the bot inside a lightweight container using Docker:
 ```bash
 docker-compose up -d --build
 ```
+
+### Option C: PM2 (Process Manager)
+To run the bot in the background on your server with automatic crash restarts and log rotation:
+1. Install PM2 globally on your system/server:
+   ```bash
+   npm install -g pm2
+   ```
+2. Build and start the bot:
+   ```bash
+   npm run start:pm2
+   ```
+3. Control the bot process:
+   * **View live logs**: `npm run logs:pm2`
+   * **Stop the bot**: `npm run stop:pm2`
+   * **Restart the bot**: `pm2 restart strat-ai-bot`
