@@ -7,6 +7,7 @@ import { registerCommands } from './utils/command-registry.js';
 import { closeDatabase } from './database/connection.js';
 import { clearChannelCache } from './services/logging.service.js';
 import { logger } from './utils/logger.js';
+import { createServer } from 'http';
 import type { BotCommand, BotEvent } from './types/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -79,6 +80,15 @@ async function start(): Promise<void> {
   }
 
   await client.login(token);
+
+  // Start dummy HTTP server for Render port check / health check
+  const port = process.env.PORT || 10000;
+  createServer((_req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Strat AI Discord Bot is running!');
+  }).listen(port, () => {
+    logger.info(`Dummy HTTP server listening on port ${port} (Render health check active)`);
+  });
 }
 
 function shutdown(signal: string): void {
